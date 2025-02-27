@@ -8,9 +8,10 @@ export class UserService {
     constructor(@InjectRepository(User) private userRepository: Repository<User>) { }
 
     async createUser(userData: {accountId: string, firstName: string, lastName?: string}){
-        const user = this.userRepository.create({...userData})
-        this.userRepository.save(user);
-        Logger.log(user,"user")
+        const tempUser = this.userRepository.create({...userData})
+        await this.userRepository.save(tempUser);
+        const user = this.userRepository.findOne({where: {accountId: userData.accountId}})
+        
         return user;
     }
     async getUser(accountId: string){
