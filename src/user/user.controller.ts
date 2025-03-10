@@ -23,4 +23,8 @@ export class UserController {
             throw e
         }
     }
+    @MessagePattern({cmd: "update_user"})
+    async updateUser(@Payload() pyload: {accountId: string, firstName: string}){
+        return await this.userService.updateUser(pyload);
+    }
 }
